@@ -5,10 +5,10 @@ export function Footer() {
     <footer className="flex flex-col text-black-100 mt-5 dark:border-gray-700 transition-colors duration-200">
       <div
         className="flex justify-between items-center flex-wrap mt-10 border-t 
-      border-gray-100 px-24 py-10 sm:px-16 dark:border-gray-700 transition-colors duration-200 gap-2 "
+      border-orange-600 px-24 py-10 sm:px-16 dark:border-gray-700 transition-colors duration-200 gap-2 "
       >
         <Link
-          className="dark:text-gray-200 transition-colors duration-200"
+          className="text-gray-800 dark:text-gray-200 transition-colors duration-200"
           href="https://www.dio.me/bootcamp/decola-tech-avanade-net-developer"
           target="blank"
         >
@@ -16,7 +16,7 @@ export function Footer() {
         </Link>
 
         <Link
-          className="dark:text-gray-200 transition-colors duration-200"
+          className="text-gray-800 dark:text-gray-200 transition-colors duration-200"
           href="https://github.com/Flaviojcf"
           target="blank"
         >
