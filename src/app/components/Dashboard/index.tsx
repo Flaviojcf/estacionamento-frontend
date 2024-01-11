@@ -73,7 +73,7 @@ export function Dashboard() {
         style={{ display: isExpanded ? 'none' : 'block' }}
         className="absolute bottom-0 w-full py-2 bg-orange-400 text-black font-bold text-center mb-0"
       >
-        Sistema de Estacionamento
+        <h2>&copy; Sistema de Estacionamento .</h2>
       </motion.div>
     </motion.nav>
   )
