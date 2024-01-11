@@ -4,6 +4,9 @@ import { motion, useAnimation } from 'framer-motion'
 import { dashboardTitle } from '@/mock/constants/contants'
 import { FaCar, FaPlus } from 'react-icons/fa'
 import { LuParkingCircle } from 'react-icons/lu'
+import * as Dialog from '@radix-ui/react-dialog'
+import { VeiculoModal } from '../Modal/VeiculoModal'
+import { EstacionamentoModal } from '../Modal/EstacionamentoModal'
 
 export function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -51,20 +54,31 @@ export function Dashboard() {
           <FaCar />
           Veículos
         </motion.li>
-        <motion.li
-          className="px-4 flex items-center gap-2  h-12 transition duration-200 hover:bg-black cursor-pointer"
-          animate={{ opacity: isExpanded ? 0 : 1 }}
-        >
-          <FaPlus />
-          Novo Veículo
-        </motion.li>
-        <motion.li
-          className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
-          animate={{ opacity: isExpanded ? 0 : 1 }}
-        >
-          <FaPlus />
-          Novo Estacionamento
-        </motion.li>
+        <Dialog.Root>
+          <Dialog.Trigger className="w-full">
+            <motion.li
+              className="px-4 flex items-center gap-2  h-12 transition duration-200 hover:bg-black cursor-pointer w-full"
+              animate={{ opacity: isExpanded ? 0 : 1 }}
+            >
+              <FaPlus />
+              Novo Veículo
+            </motion.li>
+          </Dialog.Trigger>
+          <VeiculoModal />
+        </Dialog.Root>
+
+        <Dialog.Root>
+          <Dialog.Trigger className="w-full">
+            <motion.li
+              className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
+              animate={{ opacity: isExpanded ? 0 : 1 }}
+            >
+              <FaPlus />
+              Novo Estacionamento
+            </motion.li>
+          </Dialog.Trigger>
+          <EstacionamentoModal />
+        </Dialog.Root>
       </ul>
       <motion.div
         animate={{
