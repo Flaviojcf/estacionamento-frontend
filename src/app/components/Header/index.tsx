@@ -22,7 +22,7 @@ export function Header() {
   }
 
   return (
-    <header className="flex h-20 bg-orange-600 px-12 pl-14 justify-between items-center ">
+    <header className="flex h-20 bg-orange-600 px-12 pl-14 justify-between items-center rounded-md">
       <div className="flex">
         <Image
           alt="Estacionamento Logo"
