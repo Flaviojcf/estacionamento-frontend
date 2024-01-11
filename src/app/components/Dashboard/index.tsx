@@ -38,28 +38,28 @@ export function Dashboard() {
           {dashboardTitle}
         </motion.h1>
         <motion.li
-          className="px-4 flex items-center gap-2 h-12 hover:bg-black mt-4 cursor-pointer"
+          className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black mt-4 cursor-pointer"
           animate={{ opacity: isExpanded ? 0 : 1 }}
         >
           <LuParkingCircle />
           Estacionamentos
         </motion.li>
         <motion.li
-          className="px-4 flex items-center gap-2 h-12  hover:bg-black cursor-pointer"
+          className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
           animate={{ opacity: isExpanded ? 0 : 1 }}
         >
           <FaCar />
           Veículos
         </motion.li>
         <motion.li
-          className="px-4 flex items-center gap-2  h-12  hover:bg-black cursor-pointer"
+          className="px-4 flex items-center gap-2  h-12 transition duration-200 hover:bg-black cursor-pointer"
           animate={{ opacity: isExpanded ? 0 : 1 }}
         >
           <FaPlus />
           Novo Veículo
         </motion.li>
         <motion.li
-          className="px-4 flex items-center gap-2 h-12  hover:bg-black cursor-pointer"
+          className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
           animate={{ opacity: isExpanded ? 0 : 1 }}
         >
           <FaPlus />
