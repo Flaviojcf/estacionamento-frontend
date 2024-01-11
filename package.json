@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/themes": "^2.0.3",
     "@rocketseat/eslint-config": "^1.2.0",
     "framer-motion": "^10.17.9",
     "next": "14.0.4",
