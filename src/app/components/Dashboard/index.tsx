@@ -7,12 +7,15 @@ import { LuParkingCircle } from 'react-icons/lu'
 import * as Dialog from '@radix-ui/react-dialog'
 import { VeiculoModal } from '../Modal/VeiculoModal'
 import { EstacionamentoModal } from '../Modal/EstacionamentoModal'
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import clsx from 'clsx'
 
 export function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false)
+  const pathname = usePathname()
   const controls = useAnimation()
-
+  console.log(pathname)
   const handleToggle = () => {
     setIsExpanded(!isExpanded)
     controls.start({
@@ -41,18 +44,26 @@ export function Dashboard() {
         >
           {dashboardTitle}
         </motion.h1>
+
         <Link href="/">
           <motion.li
-            className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black mt-4 cursor-pointer"
+            className={clsx(
+              'px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black mt-4 cursor-pointer',
+              { 'bg-black': pathname === '/' },
+            )}
             animate={{ opacity: isExpanded ? 0 : 1 }}
           >
             <FaHome />
             Dashboard
           </motion.li>
         </Link>
+
         <Link href="/estacionamentos/list">
           <motion.li
-            className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
+            className={clsx(
+              'px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer',
+              { 'bg-black': pathname.includes('estacionamentos') },
+            )}
             animate={{ opacity: isExpanded ? 0 : 1 }}
           >
             <LuParkingCircle />
@@ -61,7 +72,10 @@ export function Dashboard() {
         </Link>
         <Link href="/veiculos/list">
           <motion.li
-            className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
+            className={clsx(
+              'px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer',
+              { 'bg-black': pathname.includes('veiculos') },
+            )}
             animate={{ opacity: isExpanded ? 0 : 1 }}
           >
             <FaCar />
