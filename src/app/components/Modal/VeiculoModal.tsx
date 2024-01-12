@@ -15,7 +15,6 @@ export function VeiculoModal() {
             <MdClose size={24} />
           </Dialog.Close>
         </div>
-
         <div className="mt-8">
           <form className="flex flex-col gap-4">
             <input
@@ -23,11 +22,17 @@ export function VeiculoModal() {
               type="text"
               placeholder="Placa"
             />
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Estacionamento (id)"
-            />
+            <select
+              className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
+              defaultValue=""
+            >
+              <option value="" disabled hidden>
+                Selecione um Estacionamento
+              </option>
+              <option value="1">Estacionamento A</option>
+              <option value="2">Estacionamento B</option>
+              <option value="3">Estacionamento C</option>
+            </select>
           </form>
         </div>
 
