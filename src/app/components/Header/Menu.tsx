@@ -20,10 +20,14 @@ export function Menu() {
       </DropdownMenu.Trigger>
       <AnimatePresence>
         {isOpen && (
-          <DropdownMenu.Content className="h-screen -mt-10" asChild forceMount>
+          <DropdownMenu.Content
+            className="h-[269px] -mt-12 mr-1"
+            asChild
+            forceMount
+          >
             <motion.ul
               className="flex flex-col px-2 py-4 pt-10 
-              rounded-md gap-4 text-black w-[320px] h-[269px] bg-white z-50 drop-shadow-2xl dark:bg-gray-600"
+              rounded-md gap-4 text-black w-[320px] z-50 drop-shadow-2xl bg-gray-600"
               initial={{ x: 200 }}
               animate={{ x: 0 }}
               exit={{ x: 200 }}
