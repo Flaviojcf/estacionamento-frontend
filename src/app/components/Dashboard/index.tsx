@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { motion, useAnimation } from 'framer-motion'
 import { dashboardTitle } from '@/mock/constants/contants'
-import { FaCar, FaPlus } from 'react-icons/fa'
+import { FaCar, FaPlus, FaHome } from 'react-icons/fa'
 import { LuParkingCircle } from 'react-icons/lu'
 import * as Dialog from '@radix-ui/react-dialog'
 import { VeiculoModal } from '../Modal/VeiculoModal'
@@ -42,6 +42,13 @@ export function Dashboard() {
         </motion.h1>
         <motion.li
           className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black mt-4 cursor-pointer"
+          animate={{ opacity: isExpanded ? 0 : 1 }}
+        >
+          <FaHome />
+          Dashboard
+        </motion.li>
+        <motion.li
+          className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
           animate={{ opacity: isExpanded ? 0 : 1 }}
         >
           <LuParkingCircle />
