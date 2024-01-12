@@ -21,7 +21,7 @@ export function Dashboard() {
 
   return (
     <motion.nav
-      className="relative bg-orange-600 h-[600px] w-[300px] mb-10 overflow-hidden rounded-md"
+      className="relative bg-orange-600 h-[600px] w-[300px] overflow-hidden rounded-md"
       initial={{ width: 300, opacity: 1 }}
       animate={controls}
     >

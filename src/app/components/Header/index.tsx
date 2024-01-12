@@ -5,6 +5,7 @@ import { CiDark, CiLinkedin } from 'react-icons/ci'
 import Image from 'next/image'
 import { NavItem } from './NavItem'
 import { useEffect, useState } from 'react'
+import { Menu } from './Menu'
 
 export function Header() {
   const [theme, setTheme] = useState<string>('dark')
@@ -22,7 +23,7 @@ export function Header() {
   }
 
   return (
-    <header className="flex h-20 bg-orange-600 px-12 pl-14 justify-between items-center rounded-md">
+    <header className="flex h-20 bg-orange-600 px-12 pl-14 justify-between items-center rounded-md lg:px-4">
       <div className="flex">
         <Image
           alt="Estacionamento Logo"
@@ -48,9 +49,9 @@ export function Header() {
           <Image
             alt="Decola logo"
             src="/images/decola-tech.webp"
-            width={100}
-            height={100}
-            className="object-fit"
+            width={110}
+            height={110}
+            className="object-contain sm:hidden"
           />
         </div>
         <div onClick={handleThemeSwitch} className="">
@@ -67,6 +68,7 @@ export function Header() {
             } fill-gray-800`}
           />
         </div>
+        <Menu />
       </div>
     </header>
   )
