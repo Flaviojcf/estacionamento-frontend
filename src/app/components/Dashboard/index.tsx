@@ -15,7 +15,7 @@ export function Dashboard() {
   const [isExpanded, setIsExpanded] = useState(false)
   const pathname = usePathname()
   const controls = useAnimation()
-  console.log(pathname)
+
   const handleToggle = () => {
     setIsExpanded(!isExpanded)
     controls.start({
