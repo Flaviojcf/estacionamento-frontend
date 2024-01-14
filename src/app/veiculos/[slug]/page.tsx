@@ -1,7 +1,13 @@
+import { Veiculo } from './Veiculo'
+
 export const metadata = {
   title: 'Veiculos',
 }
 
 export default function VeiculosPage() {
-  return <div>Veiculos pages</div>
+  return (
+    <div className="flex items-center justify-center w-3/4 mx-auto">
+      <Veiculo />
+    </div>
+  )
 }

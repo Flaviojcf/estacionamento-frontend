@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${inter.className} dark:bg-gray-800 flex flex-col gap-1`}
       >
         <Header />
-        <div className="flex gap-16">
+        <div className="flex gap-2">
           <Dashboard />
           {children}
         </div>
