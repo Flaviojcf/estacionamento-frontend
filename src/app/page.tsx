@@ -2,7 +2,7 @@
 import { Loading } from '@/app/components/Loading/Loading'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { FaPlus } from 'react-icons/fa'
+import { FaExternalLinkAlt, FaPlus } from 'react-icons/fa'
 import * as Dialog from '@radix-ui/react-dialog'
 import { VeiculoModal } from './components/Modal/VeiculoModal'
 import { EstacionamentoModal } from './components/Modal/EstacionamentoModal'
@@ -25,20 +25,22 @@ export default function Home() {
       {!isLoading && (
         <div className="flex flex-col w-full items-center gap-4">
           <header className="flex flex-col text-center  bg-orange-600 rounded-sm w-full p-2">
-            <h1 className="text-black font-bold">
+            <h1 className="text-white font-bold">
               Gestão de veículos/Estaciomentos
             </h1>
           </header>
 
-          <div className="flex  rounded-sm w-full justify-between h-full p-2 gap-2">
-            <div className="flex items-center justify-center flex-col w-1/2 border-2 border-orange-600 rounded-sm">
+          <div className="flex w-full justify-between h-full gap-4">
+            <div className="flex items-center justify-center flex-col w-1/2 border-2 border-orange-600 rounded-md">
               <div className="flex flex-col items-center justify-center  gap-12  text-black font-bold dark:text-white">
                 <p>Você possui 4 estacionamentos cadastrados.</p>
                 <div className="flex justify-between w-full items-center">
-                  <Link href="/estacionamentos/list">
-                    <p className="font-bold hover:text-orange-600">
-                      Ver detalhes
-                    </p>
+                  <Link
+                    className="flex items-center gap-2 underline hover:text-orange-600"
+                    href="/estacionamentos/list"
+                  >
+                    <FaExternalLinkAlt />
+                    <p className="font-bold  ">Ver Estacionamentos</p>
                   </Link>
                   <Dialog.Root>
                     <Dialog.Trigger>
@@ -52,14 +54,16 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center justify-center  flex-col w-1/2 border-2 border-orange-600  rounded-sm">
+            <div className="flex items-center justify-center  flex-col w-1/2 border-2 border-orange-600  rounded-md">
               <div className="flex flex-col items-center justify-center gap-12 text-black font-bold dark:text-white">
                 <p>Você possui 4 veiculos cadastrados.</p>
                 <div className="flex justify-between w-full items-center">
-                  <Link href="/veiculos/list">
-                    <p className="font-bold hover:text-orange-600 ">
-                      Ver detalhes
-                    </p>
+                  <Link
+                    className="flex items-center gap-2 underline hover:text-orange-600"
+                    href="/veiculos/list"
+                  >
+                    <FaExternalLinkAlt />
+                    <p className="font-bold ">Ver Veiculos</p>
                   </Link>
                   <Dialog.Root>
                     <Dialog.Trigger>
