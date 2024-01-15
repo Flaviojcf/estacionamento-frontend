@@ -1,6 +1,11 @@
 'use client'
 import { Loading } from '@/app/components/Loading/Loading'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { FaPlus } from 'react-icons/fa'
+import * as Dialog from '@radix-ui/react-dialog'
+import { VeiculoModal } from './components/Modal/VeiculoModal'
+import { EstacionamentoModal } from './components/Modal/EstacionamentoModal'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -25,12 +30,48 @@ export default function Home() {
             </h1>
           </header>
 
-          <div className="flex border border-orange-600 rounded-sm w-full justify-between h-full">
-            <div className="flex items-center justify-center flex-col w-1/2 border border-black">
-              <p>Qtd de estacionamentos</p>
+          <div className="flex  rounded-sm w-full justify-between h-full p-2 gap-2">
+            <div className="flex items-center justify-center flex-col w-1/2 border-2 border-orange-600 rounded-sm">
+              <div className="flex flex-col items-center justify-center  gap-12  text-black font-bold dark:text-white">
+                <p>Você possui 4 estacionamentos cadastrados.</p>
+                <div className="flex justify-between w-full items-center">
+                  <Link href="/estacionamentos/list">
+                    <p className="font-bold hover:text-orange-600">
+                      Ver detalhes
+                    </p>
+                  </Link>
+                  <Dialog.Root>
+                    <Dialog.Trigger>
+                      <button className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
+                        <FaPlus />
+                        Adicionar
+                      </button>
+                    </Dialog.Trigger>
+                    <EstacionamentoModal />
+                  </Dialog.Root>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center justify-center  flex-col w-1/2 border border-black">
-              <p>Qtd de veículos</p>
+            <div className="flex items-center justify-center  flex-col w-1/2 border-2 border-orange-600  rounded-sm">
+              <div className="flex flex-col items-center justify-center gap-12 text-black font-bold dark:text-white">
+                <p>Você possui 4 veiculos cadastrados.</p>
+                <div className="flex justify-between w-full items-center">
+                  <Link href="/veiculos/list">
+                    <p className="font-bold hover:text-orange-600 ">
+                      Ver detalhes
+                    </p>
+                  </Link>
+                  <Dialog.Root>
+                    <Dialog.Trigger>
+                      <button className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
+                        <FaPlus />
+                        Adicionar
+                      </button>
+                    </Dialog.Trigger>
+                    <VeiculoModal />
+                  </Dialog.Root>
+                </div>
+              </div>
             </div>
           </div>
         </div>
