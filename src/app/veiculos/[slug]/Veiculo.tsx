@@ -1,5 +1,6 @@
 'use client'
 import { Loading } from '@/app/components/Loading/Loading'
+import { VeiculoCard } from '@/app/components/VeiculoCard'
 import { useEffect, useState } from 'react'
 
 export function Veiculo() {
@@ -16,7 +17,11 @@ export function Veiculo() {
   return (
     <div>
       {isLoading && <Loading />}
-      {!isLoading && <div>Estacionamento page</div>}
+      {!isLoading && (
+        <div>
+          <VeiculoCard placa="ABC-2024" />
+        </div>
+      )}
     </div>
   )
 }
