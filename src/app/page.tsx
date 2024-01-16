@@ -6,17 +6,38 @@ import { FaExternalLinkAlt, FaPlus } from 'react-icons/fa'
 import * as Dialog from '@radix-ui/react-dialog'
 import { VeiculoModal } from './components/Modal/VeiculoModal'
 import { EstacionamentoModal } from './components/Modal/EstacionamentoModal'
+import { api } from './api/api'
+import { IVeiculo } from './interfaces/IVeiculo'
+import { IEstacionamento } from './interfaces/IEstacionamento'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
+  const [veiculos, setVeiculos] = useState<IVeiculo[]>([])
+  const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
 
-  useEffect(() => {
-    const loadData = async () => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+  async function getVeiculos() {
+    try {
+      const response = await api.get('/veiculo')
+      setVeiculos(response.data)
+    } catch (error) {
+    } finally {
       setIsLoading(false)
     }
+  }
 
-    loadData()
+  async function getEstacionamentos() {
+    try {
+      const response = await api.get('/estacionamento')
+      setEstacionamento(response.data)
+    } catch (error) {
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getVeiculos()
+    getEstacionamentos()
   }, [])
 
   return (
@@ -32,9 +53,9 @@ export default function Home() {
 
           <div className="flex w-full justify-between h-full gap-4 md:flex-col md:justify-normal">
             <div className="flex items-center justify-center flex-col w-1/2 border-2 border-orange-600 rounded-md md:w-full md:h-full">
-              <div className="flex flex-col items-center justify-center  gap-12  text-black font-bold dark:text-white min-w-64">
-                <p>4 estacionamentos cadastrados.</p>
-                <div className="flex justify-between w-full items-center sm:flex-col sm:gap-4 sm:items-start">
+              <div className="flex flex-col items-center justify-center  gap-12  text-black font-bold dark:text-white min-w-80">
+                <p>{estacionamento.length} estacionamentos cadastrados.</p>
+                <div className="flex justify-between w-full items-center sm:flex-col sm:gap-4 ">
                   <Link
                     className="flex items-center gap-2 underline hover:text-orange-600"
                     href="/estacionamentos/list"
@@ -55,11 +76,9 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center  flex-col w-1/2 border-2 border-orange-600  rounded-md md:w-full md:h-full">
-              <div className="flex flex-col items-center text-center justify-center gap-12 text-black font-bold dark:text-white min-w-64">
-                <p className="flex self-center w-full">
-                  4 veiculos cadastrados.
-                </p>
-                <div className="flex justify-between w-full items-center sm:flex-col sm:gap-4 sm:items-start">
+              <div className="flex flex-col items-center justify-center  gap-12  text-black font-bold dark:text-white min-w-80">
+                <p>{veiculos.length} veiculos cadastrados.</p>
+                <div className="flex justify-between w-full items-center sm:flex-col sm:gap-4">
                   <Link
                     className="flex items-center gap-2 underline hover:text-orange-600"
                     href="/veiculos/list"
