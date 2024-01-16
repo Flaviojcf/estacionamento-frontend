@@ -4,6 +4,7 @@ import { Loading } from '@/app/components/Loading/Loading'
 import { VeiculoCard } from '@/app/components/VeiculoCard'
 import { ICustomError } from '@/app/interfaces/IError'
 import { IVeiculo } from '@/app/interfaces/IVeiculo'
+import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
 export function Veiculo() {
@@ -45,7 +46,19 @@ export function Veiculo() {
           </div>
         </div>
       ) : (
-        errorMessage
+        <div className="flex flex-col gap-6 w-full h-full mt-2">
+          <header
+            className={clsx(
+              'flex flex-col text-center  bg-orange-600 rounded-sm w-full p-2',
+              { hidden: isLoading },
+            )}
+          >
+            <h1 className="text-white font-bold">Veículos Cadastrados</h1>
+          </header>
+          <div className="flex w-full h-full gap-12 rounded-md justify-center items-center">
+            {errorMessage}
+          </div>
+        </div>
       )}
     </div>
   )
