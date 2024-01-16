@@ -20,7 +20,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex justify-center w-[70%] mx-auto mt-2  rounded-sm lg:w-full lg:h-[500px] ">
+    <div className="flex justify-center w-[70%] mx-auto mt-2  rounded-sm lg:w-full lg:h-[500px]">
       {isLoading && <Loading />}
       {!isLoading && (
         <div className="flex flex-col w-full items-center gap-2">

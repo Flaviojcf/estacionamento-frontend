@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function VeiculosPage() {
   return (
-    <div className="flex items-center justify-center w-3/4 mx-auto">
+    <div className="flex items-center justify-center w-3/4 mx-auto lg:w-full">
       <Veiculo />
     </div>
   )
