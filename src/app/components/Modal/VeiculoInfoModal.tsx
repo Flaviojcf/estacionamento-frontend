@@ -1,8 +1,9 @@
 'use client'
+import { IVeiculo } from '@/app/interfaces/IVeiculo'
 import * as Dialog from '@radix-ui/react-dialog'
 import { MdClose } from 'react-icons/md'
 
-export function VeiculoInfoModal() {
+export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -24,35 +25,38 @@ export function VeiculoInfoModal() {
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="text"
               placeholder="Placa"
+              value={veiculo.placa}
             />
             <select
               className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
-              defaultValue=""
+              value={veiculo.estacionamentoId}
             >
-              <option value="Estacionamento A" disabled hidden>
-                Selecione um Estacionamento
-              </option>
+              <option value="">{veiculo.estacionamentoId}</option>
               <option value="1">Estacionamento A</option>
               <option value="2">Estacionamento B</option>
               <option value="3">Estacionamento C</option>
             </select>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Id do estacionamento"
-              readOnly
-            />
 
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
+              type="date"
               placeholder="Data de Criação"
+              value={
+                veiculo.dataCriacao
+                  ? new Date(veiculo.dataCriacao).toISOString().split('T')[0]
+                  : ''
+              }
               readOnly
             />
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="text"
-              placeholder="Data Alteração"
+              placeholder="Data de Alteração"
+              value={
+                veiculo.dataAlteracao
+                  ? new Date(veiculo.dataAlteracao).toISOString().split('T')[0]
+                  : 'Informações não alteradas'
+              }
               readOnly
             />
           </form>
