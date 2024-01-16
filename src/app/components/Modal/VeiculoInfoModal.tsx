@@ -12,7 +12,7 @@ export function VeiculoInfoModal() {
       >
         <div className="flex items-center justify-between">
           <Dialog.Title className="text-xl text-white">
-            Cadastrar veículo
+            Informações do Veículo
           </Dialog.Title>
           <Dialog.Close className="text-gray-200 hover:text-gray-600">
             <MdClose size={24} />
@@ -29,13 +29,32 @@ export function VeiculoInfoModal() {
               className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
               defaultValue=""
             >
-              <option value="" disabled hidden>
+              <option value="Estacionamento A" disabled hidden>
                 Selecione um Estacionamento
               </option>
               <option value="1">Estacionamento A</option>
               <option value="2">Estacionamento B</option>
               <option value="3">Estacionamento C</option>
             </select>
+            <input
+              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
+              type="text"
+              placeholder="Id do estacionamento"
+              readOnly
+            />
+
+            <input
+              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
+              type="text"
+              placeholder="Data de Criação"
+              readOnly
+            />
+            <input
+              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
+              type="text"
+              placeholder="Data Alteração"
+              readOnly
+            />
           </form>
         </div>
 
@@ -44,7 +63,7 @@ export function VeiculoInfoModal() {
             Cancelar
           </Dialog.Close>
           <button className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
-            Salvar
+            Salvar Edição
           </button>
         </div>
       </Dialog.Content>
