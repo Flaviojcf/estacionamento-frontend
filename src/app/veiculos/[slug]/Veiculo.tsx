@@ -38,7 +38,7 @@ export function Veiculo() {
           <header className="flex flex-col text-center  bg-orange-600 rounded-sm w-full p-2">
             <h1 className="text-white font-bold">Veículos Cadastrados</h1>
           </header>
-          <div className="flex w-full gap-12 rounded-md ">
+          <div className="flex w-full gap-12 rounded-md lg:flex-wrap lg:items-center lg:justify-center">
             {veiculos.map((veiculo: IVeiculo, index) => (
               <VeiculoCard key={`${veiculo.placa}-${index}`} {...veiculo} />
             ))}
