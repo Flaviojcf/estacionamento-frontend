@@ -1,6 +1,7 @@
 'use client'
 
 import { api } from '@/app/api/api'
+import { EstacionamentoCard } from '@/app/components/EstacionamentoCard'
 import { Loading } from '@/app/components/Loading/Loading'
 import { ICustomError } from '@/app/interfaces/IError'
 import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
@@ -42,7 +43,12 @@ export function Estacionamento() {
             </h1>
           </header>
           <div className="flex w-full gap-12 rounded-md lg:flex-wrap lg:items-center lg:justify-center">
-            {estacionamento.map((x) => x.nome)}
+            {estacionamento.map((estacionamento: IEstacionamento, index) => (
+              <EstacionamentoCard
+                key={`${estacionamento.nome}-${index}`}
+                {...estacionamento}
+              />
+            ))}
           </div>
         </div>
       ) : (
