@@ -11,6 +11,7 @@ import { IVeiculo } from './interfaces/IVeiculo'
 import { IEstacionamento } from './interfaces/IEstacionamento'
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [veiculos, setVeiculos] = useState<IVeiculo[]>([])
   const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
@@ -39,6 +40,10 @@ export default function Home() {
     getVeiculos()
     getEstacionamentos()
   }, [])
+
+  function handleCloseOnSubmit() {
+    setIsOpen(!isOpen)
+  }
 
   return (
     <div className="flex justify-center w-[70%] mx-auto mt-2  rounded-sm lg:w-full lg:h-[500px]">
@@ -86,14 +91,17 @@ export default function Home() {
                     <FaExternalLinkAlt />
                     <p className="font-bold ">Ver Veiculos</p>
                   </Link>
-                  <Dialog.Root>
+                  <Dialog.Root
+                    open={isOpen}
+                    onOpenChange={(open) => setIsOpen(open)}
+                  >
                     <Dialog.Trigger>
                       <p className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
                       </p>
                     </Dialog.Trigger>
-                    <VeiculoModal />
+                    <VeiculoModal handleCloseOnSubmit={handleCloseOnSubmit} />
                   </Dialog.Root>
                 </div>
               </div>

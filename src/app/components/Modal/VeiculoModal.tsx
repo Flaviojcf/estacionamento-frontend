@@ -7,6 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { NewVeiculoForm } from '../Form/Veiculo/NewVeiculoForm'
 import { api } from '@/app/api/api'
 
+type VeiculoModalProps = {
+  handleCloseOnSubmit: () => void
+}
+
 const FormValidationSchema = zod.object({
   placa: zod
     .string()
@@ -19,7 +23,7 @@ const FormValidationSchema = zod.object({
 
 type NewVeiculoFormData = zod.infer<typeof FormValidationSchema>
 
-export function VeiculoModal() {
+export function VeiculoModal({ handleCloseOnSubmit }: VeiculoModalProps) {
   const newVeiculoForm = useForm<NewVeiculoFormData>({
     resolver: zodResolver(FormValidationSchema),
   })
@@ -27,7 +31,6 @@ export function VeiculoModal() {
   const { handleSubmit, reset } = newVeiculoForm
 
   function handleCreateNewVeiculo(data: NewVeiculoFormData) {
-    console.log(data)
     api
       .post('/veiculo', data)
       .then((response) => {
@@ -36,6 +39,9 @@ export function VeiculoModal() {
       })
       .catch((error) => {
         console.error('Erro ao criar veículo:', error)
+      })
+      .finally(() => {
+        handleCloseOnSubmit()
       })
     reset()
   }
