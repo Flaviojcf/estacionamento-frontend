@@ -3,20 +3,17 @@ import { ICustomError } from '@/app/interfaces/IError'
 import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 
 export function NewVeiculoForm() {
   const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
-  const [errorMessage, setErrorMessage] = useState<string>()
 
   async function getEstacionamentos() {
     try {
       const response = await api.get('/estacionamento')
       setEstacionamento(response.data)
     } catch (error: any) {
-      const customError = error.response?.data as ICustomError
-      if (customError) {
-        setErrorMessage(customError.Errors[0].Message)
-      }
+      console.error(error)
     }
   }
 
@@ -24,7 +21,11 @@ export function NewVeiculoForm() {
     getEstacionamentos()
   }, [])
 
-  const { register } = useFormContext()
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext()
+
   return (
     <div className="flex flex-col gap-4">
       <input
@@ -33,6 +34,10 @@ export function NewVeiculoForm() {
         placeholder="Placa"
         {...register('placa')}
       />
+      <div className="text-red-400 text-sm">
+        <ErrorMessage errors={errors} name="placa" />
+      </div>
+
       {estacionamento.length === 0 ? (
         <div className="border-0 rounded-md bg-[#121214] text-white p-4 ">
           <p>Cadastre um estacionamento</p>
@@ -41,7 +46,7 @@ export function NewVeiculoForm() {
         <select
           className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
           defaultValue="Selecione um Estacionamento"
-          {...register('estacionamento')}
+          {...register('estacionamentoId')}
         >
           <option value="">Selecione um Estacionamento</option>
           {estacionamento.map((estacionamento, index) => (
@@ -54,6 +59,9 @@ export function NewVeiculoForm() {
           ))}
         </select>
       )}
+      <div className="text-red-400 text-sm">
+        <ErrorMessage errors={errors} name="estacionamento" />
+      </div>
     </div>
   )
 }

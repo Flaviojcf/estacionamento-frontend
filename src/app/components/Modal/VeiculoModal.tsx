@@ -4,17 +4,17 @@ import { MdClose } from 'react-icons/md'
 import * as zod from 'zod'
 import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewVeiculoForm } from '../Form/NewVeiculoForm'
+import { NewVeiculoForm } from '../Form/Veiculo/NewVeiculoForm'
+import { api } from '@/app/api/api'
 
 const FormValidationSchema = zod.object({
   placa: zod
     .string()
     .min(1, { message: 'Campo obrigatório' })
     .refine((data) => /^[a-zA-Z]{3}-\d{4}$/.test(data), {
-      message:
-        'A placa deve ter o formato de 3 letras, um traço e depois 4 números',
+      message: 'A placa deve ter o seguinte formato: "abc-2024" ',
     }),
-  estacionamento: zod.string().min(1, { message: 'Campo obrigatório' }),
+  estacionamentoId: zod.string().min(1, { message: 'Campo obrigatório' }),
 })
 
 type NewVeiculoFormData = zod.infer<typeof FormValidationSchema>
@@ -28,6 +28,15 @@ export function VeiculoModal() {
 
   function handleCreateNewVeiculo(data: NewVeiculoFormData) {
     console.log(data)
+    api
+      .post('/veiculo', data)
+      .then((response) => {
+        console.log('Veículo criado com sucesso:', response.data)
+        reset()
+      })
+      .catch((error) => {
+        console.error('Erro ao criar veículo:', error)
+      })
     reset()
   }
 

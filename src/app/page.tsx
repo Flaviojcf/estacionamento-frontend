@@ -65,10 +65,10 @@ export default function Home() {
                   </Link>
                   <Dialog.Root>
                     <Dialog.Trigger>
-                      <button className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
+                      <p className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
-                      </button>
+                      </p>
                     </Dialog.Trigger>
                     <EstacionamentoModal />
                   </Dialog.Root>
@@ -88,10 +88,10 @@ export default function Home() {
                   </Link>
                   <Dialog.Root>
                     <Dialog.Trigger>
-                      <button className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
+                      <p className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
-                      </button>
+                      </p>
                     </Dialog.Trigger>
                     <VeiculoModal />
                   </Dialog.Root>
