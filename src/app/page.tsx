@@ -11,6 +11,7 @@ import { IVeiculo } from './interfaces/IVeiculo'
 import { IEstacionamento } from './interfaces/IEstacionamento'
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [veiculos, setVeiculos] = useState<IVeiculo[]>([])
   const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
@@ -40,6 +41,10 @@ export default function Home() {
     getEstacionamentos()
   }, [])
 
+  function handleCloseOnSubmit() {
+    setIsOpen(!isOpen)
+  }
+
   return (
     <div className="flex justify-center w-[70%] mx-auto mt-2  rounded-sm lg:w-full lg:h-[500px]">
       {isLoading && <Loading />}
@@ -65,10 +70,10 @@ export default function Home() {
                   </Link>
                   <Dialog.Root>
                     <Dialog.Trigger>
-                      <button className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
+                      <p className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
-                      </button>
+                      </p>
                     </Dialog.Trigger>
                     <EstacionamentoModal />
                   </Dialog.Root>
@@ -86,14 +91,17 @@ export default function Home() {
                     <FaExternalLinkAlt />
                     <p className="font-bold ">Ver Veiculos</p>
                   </Link>
-                  <Dialog.Root>
+                  <Dialog.Root
+                    open={isOpen}
+                    onOpenChange={(open) => setIsOpen(open)}
+                  >
                     <Dialog.Trigger>
-                      <button className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
+                      <p className="flex  items-center self-end gap-2 p-2 bg-orange-600  rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
-                      </button>
+                      </p>
                     </Dialog.Trigger>
-                    <VeiculoModal />
+                    <VeiculoModal handleCloseOnSubmit={handleCloseOnSubmit} />
                   </Dialog.Root>
                 </div>
               </div>

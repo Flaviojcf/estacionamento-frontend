@@ -1,8 +1,51 @@
 'use client'
 import * as Dialog from '@radix-ui/react-dialog'
 import { MdClose } from 'react-icons/md'
+import * as zod from 'zod'
+import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { NewVeiculoForm } from '../Form/Veiculo/NewVeiculoForm'
+import { api } from '@/app/api/api'
 
-export function VeiculoModal() {
+type VeiculoModalProps = {
+  handleCloseOnSubmit: () => void
+}
+
+const FormValidationSchema = zod.object({
+  placa: zod
+    .string()
+    .min(1, { message: 'Campo obrigatório' })
+    .refine((data) => /^[a-zA-Z]{3}-\d{4}$/.test(data), {
+      message: 'A placa deve ter o seguinte formato: "abc-2024" ',
+    }),
+  estacionamentoId: zod.string().min(1, { message: 'Campo obrigatório' }),
+})
+
+type NewVeiculoFormData = zod.infer<typeof FormValidationSchema>
+
+export function VeiculoModal({ handleCloseOnSubmit }: VeiculoModalProps) {
+  const newVeiculoForm = useForm<NewVeiculoFormData>({
+    resolver: zodResolver(FormValidationSchema),
+  })
+
+  const { handleSubmit, reset } = newVeiculoForm
+
+  function handleCreateNewVeiculo(data: NewVeiculoFormData) {
+    api
+      .post('/veiculo', data)
+      .then((response) => {
+        console.log('Veículo criado com sucesso:', response.data)
+        reset()
+      })
+      .catch((error) => {
+        console.error('Erro ao criar veículo:', error)
+      })
+      .finally(() => {
+        handleCloseOnSubmit()
+      })
+    reset()
+  }
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -19,23 +62,13 @@ export function VeiculoModal() {
           </Dialog.Close>
         </div>
         <div className="mt-8">
-          <form className="flex flex-col gap-4">
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Placa"
-            />
-            <select
-              className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
-              defaultValue=""
-            >
-              <option value="" disabled hidden>
-                Selecione um Estacionamento
-              </option>
-              <option value="1">Estacionamento A</option>
-              <option value="2">Estacionamento B</option>
-              <option value="3">Estacionamento C</option>
-            </select>
+          <form
+            onSubmit={handleSubmit(handleCreateNewVeiculo)}
+            id="newVeiculoForm"
+          >
+            <FormProvider {...newVeiculoForm}>
+              <NewVeiculoForm />
+            </FormProvider>
           </form>
         </div>
 
@@ -43,7 +76,11 @@ export function VeiculoModal() {
           <Dialog.Close className="rounded px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600">
             Cancelar
           </Dialog.Close>
-          <button className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
+          <button
+            type="submit"
+            form="newVeiculoForm"
+            className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600"
+          >
             Salvar
           </button>
         </div>

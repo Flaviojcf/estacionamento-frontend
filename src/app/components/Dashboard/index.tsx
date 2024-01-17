@@ -12,6 +12,7 @@ import Link from 'next/link'
 import clsx from 'clsx'
 
 export function Dashboard() {
+  const [isOpen, setIsOpen] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const pathname = usePathname()
   const controls = useAnimation()
@@ -21,6 +22,10 @@ export function Dashboard() {
     controls.start({
       width: isExpanded ? 300 : 30,
     })
+  }
+
+  function handleCloseOnSubmit() {
+    setIsOpen(!isOpen)
   }
 
   return (
@@ -82,7 +87,7 @@ export function Dashboard() {
             Veículos
           </motion.li>
         </Link>
-        <Dialog.Root>
+        <Dialog.Root open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
           <Dialog.Trigger className="w-full">
             <motion.li
               className="px-4 flex items-center gap-2  h-12 transition duration-200 hover:bg-black cursor-pointer w-full"
@@ -92,7 +97,7 @@ export function Dashboard() {
               Novo Veículo
             </motion.li>
           </Dialog.Trigger>
-          <VeiculoModal />
+          <VeiculoModal handleCloseOnSubmit={handleCloseOnSubmit} />
         </Dialog.Root>
 
         <Dialog.Root>

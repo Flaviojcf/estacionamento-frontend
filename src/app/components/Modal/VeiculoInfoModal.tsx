@@ -1,9 +1,27 @@
 'use client'
+import { api } from '@/app/api/api'
+import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
 import { IVeiculo } from '@/app/interfaces/IVeiculo'
 import * as Dialog from '@radix-ui/react-dialog'
+import { useEffect, useState } from 'react'
 import { MdClose } from 'react-icons/md'
 
 export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
+  const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
+
+  async function getEstacionamentos() {
+    try {
+      const response = await api.get('/estacionamento')
+      setEstacionamento(response.data)
+    } catch (error: any) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    getEstacionamentos()
+  }, [])
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -31,10 +49,17 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
               className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
               value={veiculo.estacionamentoId}
             >
-              <option value="">{veiculo.estacionamentoId}</option>
-              <option value="1">Estacionamento A</option>
-              <option value="2">Estacionamento B</option>
-              <option value="3">Estacionamento C</option>
+              <option value={veiculo.estacionamentoId}>
+                {veiculo.estacionamentoId}
+              </option>
+              {estacionamento.map((estacionamento, index) => (
+                <option
+                  key={`${estacionamento.isAtivo}-${index}`}
+                  value={estacionamento.id}
+                >
+                  {estacionamento.nome}
+                </option>
+              ))}
             </select>
 
             <input
