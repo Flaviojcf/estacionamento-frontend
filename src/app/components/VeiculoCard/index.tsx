@@ -14,8 +14,8 @@ export function VeiculoCard({ ...veiculo }: IVeiculo) {
 
   return (
     <div className="car-card group dark:bg-slate-500 transition-colors duration-200 w-80">
-      <div className="car-card__content dark:text-gray-300 transition-colors duration-200">
-        <h2 className="font-bold text-2xl">Placa: {veiculo.placa}</h2>
+      <div className="car-card__content dark:text-gray-300 transition-colors duration-200 flex text-center">
+        <h2 className="font-bold text-xl w-full">{veiculo.placa}</h2>
       </div>
 
       <div className="w-6 h-6 relative cursor-pointer ml-auto">
