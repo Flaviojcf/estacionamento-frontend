@@ -12,6 +12,8 @@ import { IEstacionamento } from './interfaces/IEstacionamento'
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isEstacionamentoModalOpen, setIsEstacionamentoModalOpen] =
+    useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [veiculos, setVeiculos] = useState<IVeiculo[]>([])
   const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
@@ -45,6 +47,10 @@ export default function Home() {
     setIsOpen(!isOpen)
   }
 
+  function handleCloseEstacionamentoOnSubmit() {
+    setIsEstacionamentoModalOpen(!isEstacionamentoModalOpen)
+  }
+
   return (
     <div className="flex justify-center w-[70%] mx-auto mt-2  rounded-sm lg:w-full lg:h-[500px]">
       {isLoading && <Loading />}
@@ -68,14 +74,19 @@ export default function Home() {
                     <FaExternalLinkAlt />
                     <p className="font-bold">Ver Estacionamentos</p>
                   </Link>
-                  <Dialog.Root>
+                  <Dialog.Root
+                    open={isEstacionamentoModalOpen}
+                    onOpenChange={(open) => setIsEstacionamentoModalOpen(open)}
+                  >
                     <Dialog.Trigger>
                       <p className="flex items-center self-end gap-2 p-2 bg-orange-600 rounded-md hover:bg-orange-400">
                         <FaPlus />
                         Adicionar
                       </p>
                     </Dialog.Trigger>
-                    <EstacionamentoModal />
+                    <EstacionamentoModal
+                      handleCloseOnSubmit={handleCloseEstacionamentoOnSubmit}
+                    />
                   </Dialog.Root>
                 </div>
               </div>

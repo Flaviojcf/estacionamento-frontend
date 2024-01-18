@@ -1,8 +1,53 @@
 'use client'
 import * as Dialog from '@radix-ui/react-dialog'
 import { MdClose } from 'react-icons/md'
+import * as zod from 'zod'
+import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { NewEstacionamentoForm } from '../Form/Estacionamento/NewEstacionamentoForm'
+import { api } from '@/app/api/api'
 
-export function EstacionamentoModal() {
+type EstacionamentoModalProps = {
+  handleCloseOnSubmit: () => void
+}
+
+const FormValidationSchema = zod.object({
+  nome: zod.string().min(1, { message: 'Campo obrigatório' }),
+  precoInicial: zod
+    .string()
+    .refine((data) => parseFloat(data) > 0, { message: 'Campo obrigatório' }),
+  precoHora: zod
+    .string()
+    .refine((data) => parseFloat(data) > 0, { message: 'Campo obrigatório' }),
+})
+
+type NewEstacionamentoFormData = zod.infer<typeof FormValidationSchema>
+
+export function EstacionamentoModal({
+  handleCloseOnSubmit,
+}: EstacionamentoModalProps) {
+  const newEstacionamentoForm = useForm<NewEstacionamentoFormData>({
+    resolver: zodResolver(FormValidationSchema),
+  })
+
+  const { handleSubmit, reset } = newEstacionamentoForm
+
+  function handleCreateNewEstacionamento(data: NewEstacionamentoFormData) {
+    api
+      .post('/estacionamento', data)
+      .then((response) => {
+        console.log('Estacionamento criado com sucesso:', response.data)
+        reset()
+      })
+      .catch((error) => {
+        console.error('Erro ao criar Estacionamento:', error)
+      })
+      .finally(() => {
+        handleCloseOnSubmit()
+      })
+    reset()
+  }
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -20,22 +65,14 @@ export function EstacionamentoModal() {
         </div>
 
         <div className="mt-8">
-          <form className="flex flex-col gap-4">
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Nome"
-            />
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="number"
-              placeholder="Preço Inicial"
-            />
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="number"
-              placeholder="Preço por Hora"
-            />
+          <form
+            onSubmit={handleSubmit(handleCreateNewEstacionamento)}
+            id="newEstacionamentoForm"
+            className="flex flex-col gap-4"
+          >
+            <FormProvider {...newEstacionamentoForm}>
+              <NewEstacionamentoForm />
+            </FormProvider>
           </form>
         </div>
 
@@ -43,7 +80,11 @@ export function EstacionamentoModal() {
           <Dialog.Close className="rounded px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600">
             Cancelar
           </Dialog.Close>
-          <button className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
+          <button
+            type="submit"
+            form="newEstacionamentoForm"
+            className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600"
+          >
             Salvar
           </button>
         </div>

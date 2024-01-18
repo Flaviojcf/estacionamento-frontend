@@ -14,14 +14,14 @@ export function EstacionamentoCard({ ...estacionamento }: IEstacionamento) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
-    <div className="car-card group dark:bg-slate-500 transition-colors duration-200 sm:max-w-80">
-      <div className="car-card__content dark:text-gray-300 transition-colors duration-200 flex text-center">
-        <h2 className="font-bold text-xl w-full">{estacionamento.nome}</h2>
-      </div>
-
-      <div className="w-6 h-6 relative cursor-pointer ml-auto mt-4">
+    <div className="car-card group dark:bg-slate-500 transition-colors duration-200 w-80 h-96">
+      <div className="w-6 h-6 relative cursor-pointer ml-auto -mt-4">
         <div className="w-full h-0.5 bg-black absolute top-1/2 transform -translate-y-1/2 rotate-45 dark:bg-orange-600"></div>
         <div className="w-full h-0.5 bg-black absolute top-1/2 transform -translate-y-1/2 -rotate-45 dark:bg-orange-600"></div>
+      </div>
+
+      <div className="car-card__content dark:text-gray-300 transition-colors duration-200 flex text-center">
+        <h2 className="font-bold text-xl w-full h-14">{estacionamento.nome}</h2>
       </div>
 
       <div className="relative w-full h-40 my-3 object-contain">
