@@ -6,6 +6,9 @@ import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { NewEstacionamentoForm } from '../Form/Estacionamento/NewEstacionamentoForm'
 import { api } from '@/app/api/api'
+import { Toaster, toast } from 'sonner'
+import { ICustomError } from '@/app/interfaces/IError'
+import { usePathname } from 'next/navigation'
 
 type EstacionamentoModalProps = {
   handleCloseOnSubmit: () => void
@@ -26,6 +29,7 @@ type NewEstacionamentoFormData = zod.infer<typeof FormValidationSchema>
 export function EstacionamentoModal({
   handleCloseOnSubmit,
 }: EstacionamentoModalProps) {
+  const pathname = usePathname()
   const newEstacionamentoForm = useForm<NewEstacionamentoFormData>({
     resolver: zodResolver(FormValidationSchema),
   })
@@ -38,16 +42,33 @@ export function EstacionamentoModal({
     await api
       .post('/estacionamento', data)
       .then((response) => {
-        console.log('Estacionamento criado com sucesso:', response.data)
+        toast.success('Estacionamento cadastrado com sucesso', {
+          duration: 1000,
+          onAutoClose: () =>
+            pathname.includes('estacionamento') || pathname === '/'
+              ? window.location.reload()
+              : handleCloseOnSubmit(),
+          action: {
+            label: 'Fechar',
+            onClick: () => handleCloseOnSubmit(),
+          },
+        })
         reset()
       })
       .catch((error) => {
-        console.error('Erro ao criar Estacionamento:', error)
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => handleCloseOnSubmit(),
+            action: {
+              label: 'Fechar',
+              onClick: () => handleCloseOnSubmit(),
+            },
+          })
+        }
+        reset()
       })
-      .finally(() => {
-        handleCloseOnSubmit()
-      })
-    reset()
   }
 
   return (
@@ -91,6 +112,7 @@ export function EstacionamentoModal({
           </button>
         </div>
       </Dialog.Content>
+      <Toaster richColors position="top-right" />
     </Dialog.Portal>
   )
 }
