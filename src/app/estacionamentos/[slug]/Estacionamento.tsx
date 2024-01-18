@@ -42,7 +42,7 @@ export function Estacionamento() {
               Estacionamentos Cadastrados
             </h1>
           </header>
-          <div className="flex w-full gap-12 rounded-md lg:flex-wrap lg:items-center lg:justify-center">
+          <div className="flex w-full gap-12 rounded-md flex-wrap lg:items-center lg:justify-center">
             {estacionamento.map((estacionamento: IEstacionamento, index) => (
               <EstacionamentoCard
                 key={`${estacionamento.nome}-${index}`}

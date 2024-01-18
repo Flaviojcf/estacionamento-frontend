@@ -13,6 +13,8 @@ import clsx from 'clsx'
 
 export function Dashboard() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isEstacionamentoModalOpen, setIsEstacionamentoModalOpen] =
+    useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
   const pathname = usePathname()
   const controls = useAnimation()
@@ -26,6 +28,10 @@ export function Dashboard() {
 
   function handleCloseOnSubmit() {
     setIsOpen(!isOpen)
+  }
+
+  function handleCloseEstacionamentoOnSubmit() {
+    setIsEstacionamentoModalOpen(!isEstacionamentoModalOpen)
   }
 
   return (
@@ -100,7 +106,10 @@ export function Dashboard() {
           <VeiculoModal handleCloseOnSubmit={handleCloseOnSubmit} />
         </Dialog.Root>
 
-        <Dialog.Root>
+        <Dialog.Root
+          open={isEstacionamentoModalOpen}
+          onOpenChange={(open) => setIsEstacionamentoModalOpen(open)}
+        >
           <Dialog.Trigger className="w-full">
             <motion.li
               className="px-4 flex items-center gap-2 h-12 transition duration-200 hover:bg-black cursor-pointer"
@@ -110,7 +119,9 @@ export function Dashboard() {
               Novo Estacionamento
             </motion.li>
           </Dialog.Trigger>
-          <EstacionamentoModal />
+          <EstacionamentoModal
+            handleCloseOnSubmit={handleCloseEstacionamentoOnSubmit}
+          />
         </Dialog.Root>
       </ul>
       <motion.div
