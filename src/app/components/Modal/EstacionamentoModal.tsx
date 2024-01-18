@@ -32,8 +32,10 @@ export function EstacionamentoModal({
 
   const { handleSubmit, reset } = newEstacionamentoForm
 
-  function handleCreateNewEstacionamento(data: NewEstacionamentoFormData) {
-    api
+  async function handleCreateNewEstacionamento(
+    data: NewEstacionamentoFormData,
+  ) {
+    await api
       .post('/estacionamento', data)
       .then((response) => {
         console.log('Estacionamento criado com sucesso:', response.data)

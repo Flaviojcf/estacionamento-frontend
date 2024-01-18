@@ -30,8 +30,8 @@ export function VeiculoModal({ handleCloseOnSubmit }: VeiculoModalProps) {
 
   const { handleSubmit, reset } = newVeiculoForm
 
-  function handleCreateNewVeiculo(data: NewVeiculoFormData) {
-    api
+  async function handleCreateNewVeiculo(data: NewVeiculoFormData) {
+    await api
       .post('/veiculo', data)
       .then((response) => {
         console.log('Veículo criado com sucesso:', response.data)
