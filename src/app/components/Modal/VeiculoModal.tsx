@@ -6,6 +6,10 @@ import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { NewVeiculoForm } from '../Form/Veiculo/NewVeiculoForm'
 import { api } from '@/app/api/api'
+// import { ToastComponent } from '../Toast'
+import { Toaster, toast } from 'sonner'
+import { ICustomError } from '@/app/interfaces/IError'
+import { usePathname } from 'next/navigation'
 
 type VeiculoModalProps = {
   handleCloseOnSubmit: () => void
@@ -29,21 +33,39 @@ export function VeiculoModal({ handleCloseOnSubmit }: VeiculoModalProps) {
   })
 
   const { handleSubmit, reset } = newVeiculoForm
+  const pathname = usePathname()
 
   async function handleCreateNewVeiculo(data: NewVeiculoFormData) {
     await api
       .post('/veiculo', data)
-      .then((response) => {
-        console.log('Veículo criado com sucesso:', response.data)
+      .then(() => {
+        toast.success('Veiculo cadastrado com sucesso', {
+          duration: 1000,
+          onAutoClose: () =>
+            pathname.includes('veiculo') || pathname === '/'
+              ? window.location.reload()
+              : handleCloseOnSubmit(),
+          action: {
+            label: 'Fechar',
+            onClick: () => handleCloseOnSubmit(),
+          },
+        })
         reset()
       })
       .catch((error) => {
-        console.error('Erro ao criar veículo:', error)
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => handleCloseOnSubmit(),
+            action: {
+              label: 'Fechar',
+              onClick: () => handleCloseOnSubmit(),
+            },
+          })
+        }
+        reset()
       })
-      .finally(() => {
-        handleCloseOnSubmit()
-      })
-    reset()
   }
 
   return (
@@ -85,6 +107,7 @@ export function VeiculoModal({ handleCloseOnSubmit }: VeiculoModalProps) {
           </button>
         </div>
       </Dialog.Content>
+      <Toaster richColors position="top-right" />
     </Dialog.Portal>
   )
 }

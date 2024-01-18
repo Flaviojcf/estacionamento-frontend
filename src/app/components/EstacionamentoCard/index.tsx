@@ -8,15 +8,36 @@ import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
 import { EstacionamentoInfoModal } from '../Modal/EstacionamentoInfoModal'
 import { api } from '@/app/api/api'
 import { DeleteEstacionamentoAlertDialog } from '../AlertDialog/DeleteEstacionamentoAlertDialog'
+import { Toaster, toast } from 'sonner'
+import { ICustomError } from '@/app/interfaces/IError'
 
 export function EstacionamentoCard({ ...estacionamento }: IEstacionamento) {
   async function handleDeleteEstacionamento(estacionamentoId: string) {
-    try {
-      await api.delete(`/estacionamento/${estacionamentoId}`)
-      window.location.reload()
-    } catch (error) {
-      console.error('Erro ao deletar estacionamento:', error)
-    }
+    await api
+      .delete(`/estacionamento/${estacionamentoId}`)
+      .then(() => {
+        toast.success('Estacionamento deletado com sucesso', {
+          duration: 1000,
+          onAutoClose: () => window.location.reload(),
+          action: {
+            label: 'Fechar',
+            onClick: () => window.location.reload(),
+          },
+        })
+      })
+      .catch((error) => {
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => window.location.reload(),
+            action: {
+              label: 'Fechar',
+              onClick: () => window.location.reload(),
+            },
+          })
+        }
+      })
   }
 
   return (
@@ -60,6 +81,7 @@ export function EstacionamentoCard({ ...estacionamento }: IEstacionamento) {
           <EstacionamentoInfoModal {...estacionamento} />
         </Dialog.Root>
       </div>
+      <Toaster richColors position="top-right" />
     </div>
   )
 }
