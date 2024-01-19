@@ -28,6 +28,9 @@ export function NewVeiculoForm() {
 
   return (
     <div className="flex flex-col gap-4">
+      <label className="text-white" htmlFor="placa">
+        Identificação da Placa
+      </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
         type="text"
@@ -43,21 +46,26 @@ export function NewVeiculoForm() {
           <p>Cadastre um estacionamento</p>
         </div>
       ) : (
-        <select
-          className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
-          defaultValue="Selecione um Estacionamento"
-          {...register('estacionamentoId')}
-        >
-          <option value="">Selecione um Estacionamento</option>
-          {estacionamento.map((estacionamento, index) => (
-            <option
-              key={`${estacionamento.isAtivo}-${index}`}
-              value={estacionamento.id}
-            >
-              {estacionamento.nome}
-            </option>
-          ))}
-        </select>
+        <>
+          <label className="text-white" htmlFor="estacionamentoId">
+            Estacionamento
+          </label>
+          <select
+            className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
+            defaultValue="Selecione um Estacionamento"
+            {...register('estacionamentoId')}
+          >
+            <option value="">Selecione um Estacionamento</option>
+            {estacionamento.map((estacionamento, index) => (
+              <option
+                key={`${estacionamento.isAtivo}-${index}`}
+                value={estacionamento.id}
+              >
+                {estacionamento.nome}
+              </option>
+            ))}
+          </select>
+        </>
       )}
       <div className="text-red-400 text-sm">
         <ErrorMessage errors={errors} name="estacionamento" />

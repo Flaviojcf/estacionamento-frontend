@@ -53,12 +53,18 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
         </div>
         <div className="mt-8">
           <form className="flex flex-col gap-4">
+            <label className="text-white" htmlFor="placa">
+              Identificação da Placa
+            </label>
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="text"
               placeholder="Placa"
               defaultValue={veiculo.placa}
             />
+            <label className="text-white" htmlFor="estacionamentoId">
+              Estacionamento
+            </label>
             <select
               className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
               defaultValue={estacionamentoInfo?.nome}
@@ -72,7 +78,9 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
                 </option>
               ))}
             </select>
-
+            <label className="text-white" htmlFor="dataCriacao">
+              Data de Cadastro
+            </label>
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
               type="text"
