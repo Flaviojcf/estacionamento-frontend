@@ -8,3 +8,8 @@ export interface IVeiculo {
   dataAlteracao: Date
   isAtivo: boolean
 }
+
+export interface IEditVeiculo {
+  placa: string
+  id: string
+}

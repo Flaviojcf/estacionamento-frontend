@@ -1,16 +1,39 @@
 'use client'
 import { api } from '@/app/api/api'
 import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
-import { IVeiculo } from '@/app/interfaces/IVeiculo'
+import { IEditVeiculo, IVeiculo } from '@/app/interfaces/IVeiculo'
 import { formattedDate } from '@/utils/formattedDate'
 import * as Dialog from '@radix-ui/react-dialog'
+import * as zod from 'zod'
+import { useForm, FormProvider, useFormContext } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { MdClose } from 'react-icons/md'
+import { EditVeiculoForm } from '../Form/Veiculo/EditVeiculoForm'
+import { usePathname } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+import { ICustomError } from '@/app/interfaces/IError'
+
+const FormValidationSchema = zod.object({
+  placa: zod
+    .string()
+    .min(1, { message: 'Campo obrigatório' })
+    .refine((data) => /^[a-zA-Z]{3}-\d{4}$/.test(data), {
+      message: 'A placa deve ter o seguinte formato: "abc-2024" ',
+    }),
+})
+
+type EditVeiculoFormData = zod.infer<typeof FormValidationSchema>
 
 export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
+  const pathname = usePathname()
+
+  const editVeiculoForm = useForm<EditVeiculoFormData>({
+    resolver: zodResolver(FormValidationSchema),
+  })
+  const { handleSubmit, reset } = editVeiculoForm
+
   const [estacionamento, setEstacionamento] = useState<IEstacionamento[]>([])
-  const [estacionamentoInfo, setEstacionamentoInfo] =
-    useState<IEstacionamento>()
 
   async function getEstacionamentos() {
     try {
@@ -21,20 +44,44 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
     }
   }
 
-  async function getEstacionamentoById(estacionamentoId: string) {
-    try {
-      const response = await api.get(`/estacionamento/${estacionamentoId}`)
-      console.log(response.data)
-      setEstacionamentoInfo(response.data)
-    } catch (error: any) {
-      console.error(error)
-    }
-  }
-
   useEffect(() => {
-    getEstacionamentoById(veiculo.estacionamentoId)
     getEstacionamentos()
-  }, [veiculo.estacionamentoId])
+  }, [])
+
+  async function handleEditVeiculo(data: EditVeiculoFormData) {
+    const editVeiculo: IEditVeiculo = {
+      id: veiculo.id,
+      placa: data.placa,
+    }
+    console.log(editVeiculo)
+    await api
+      .put(`/veiculo/${veiculo.id}`, editVeiculo)
+      .then((response) => {
+        toast.success('Veiculo editado com sucesso', {
+          duration: 1000,
+          onAutoClose: () => window.location.reload(),
+          action: {
+            label: 'Fechar',
+            onClick: () => window.location.reload(),
+          },
+        })
+        reset()
+      })
+      .catch((error) => {
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => window.location.reload(),
+            action: {
+              label: 'Fechar',
+              onClick: () => window.location.reload(),
+            },
+          })
+        }
+        reset()
+      })
+  }
 
   return (
     <Dialog.Portal>
@@ -52,42 +99,14 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
           </Dialog.Close>
         </div>
         <div className="mt-8">
-          <form className="flex flex-col gap-4">
-            <label className="text-white" htmlFor="placa">
-              Identificação da Placa
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Placa"
-              defaultValue={veiculo.placa}
-            />
-            <label className="text-white" htmlFor="estacionamentoId">
-              Estacionamento
-            </label>
-            <select
-              className="border-0 rounded-md bg-[#121214] text-white p-4  cursor-pointer"
-              defaultValue={estacionamentoInfo?.nome}
-            >
-              {estacionamento.map((estacionamento, index) => (
-                <option
-                  key={`${estacionamento.isAtivo}-${index}`}
-                  value={estacionamento.id}
-                >
-                  {estacionamento.nome}
-                </option>
-              ))}
-            </select>
-            <label className="text-white" htmlFor="dataCriacao">
-              Data de Cadastro
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
-              type="text"
-              placeholder="Data de Criação"
-              defaultValue={formattedDate(veiculo.dataCriacao)}
-              readOnly
-            />
+          <form
+            onSubmit={handleSubmit(handleEditVeiculo)}
+            id="editVeiculoForm"
+            className="flex flex-col gap-4"
+          >
+            <FormProvider {...editVeiculoForm}>
+              <EditVeiculoForm {...veiculo} />
+            </FormProvider>
           </form>
         </div>
 
@@ -95,7 +114,11 @@ export function VeiculoInfoModal({ ...veiculo }: IVeiculo) {
           <Dialog.Close className="rounded px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600">
             Cancelar
           </Dialog.Close>
-          <button className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
+          <button
+            type="submit"
+            form="editVeiculoForm"
+            className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600"
+          >
             Salvar Edição
           </button>
         </div>

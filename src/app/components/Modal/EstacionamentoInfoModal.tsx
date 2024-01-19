@@ -1,13 +1,78 @@
 'use client'
 
-import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
+import {
+  IEditEstacionamento,
+  IEstacionamento,
+} from '@/app/interfaces/IEstacionamento'
 import { formattedDate } from '@/utils/formattedDate'
 import * as Dialog from '@radix-ui/react-dialog'
+import * as zod from 'zod'
+import { useForm, FormProvider, useFormContext } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { MdClose } from 'react-icons/md'
+import { api } from '@/app/api/api'
+import { toast } from 'sonner'
+import { usePathname } from 'next/navigation'
+import { ICustomError } from '@/app/interfaces/IError'
+import { EditEstacionamentoForm } from '../Form/Estacionamento/EditEstacionamentoForm'
+
+const FormValidationSchema = zod.object({
+  nome: zod.string().min(1, { message: 'Campo obrigatório' }),
+  precoInicial: zod
+    .string()
+    .refine((data) => parseFloat(data) > 0, { message: 'Campo obrigatório' }),
+  precoHora: zod
+    .string()
+    .refine((data) => parseFloat(data) > 0, { message: 'Campo obrigatório' }),
+})
+
+type EditEstacionamentoFormData = zod.infer<typeof FormValidationSchema>
 
 export function EstacionamentoInfoModal({
   ...estacionamento
 }: IEstacionamento) {
+  const pathname = usePathname()
+  const editEstacionamentoForm = useForm<EditEstacionamentoFormData>({
+    resolver: zodResolver(FormValidationSchema),
+  })
+  const { handleSubmit, reset } = editEstacionamentoForm
+
+  async function handleEditEstacionamento(data: EditEstacionamentoFormData) {
+    const editEstacionamento: IEditEstacionamento = {
+      id: estacionamento.id,
+      nome: data.nome,
+      precoHora: Number(data.precoHora),
+      precoInicial: Number(data.precoInicial),
+    }
+    await api
+      .put(`/estacionamento/${estacionamento.id}`, editEstacionamento)
+      .then((response) => {
+        toast.success('Estacionamento editado com sucesso', {
+          duration: 1000,
+          onAutoClose: () => window.location.reload(),
+          action: {
+            label: 'Fechar',
+            onClick: () => window.location.reload(),
+          },
+        })
+        reset()
+      })
+      .catch((error) => {
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => window.location.reload(),
+            action: {
+              label: 'Fechar',
+              onClick: () => window.location.reload(),
+            },
+          })
+        }
+        reset()
+      })
+  }
+
   return (
     <Dialog.Portal>
       <Dialog.Overlay className="fixed inset-0 bg-black/50" />
@@ -24,45 +89,14 @@ export function EstacionamentoInfoModal({
           </Dialog.Close>
         </div>
         <div className="mt-8">
-          <form className="flex flex-col gap-4">
-            <label className="text-white" htmlFor="nome">
-              Nome
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="text"
-              placeholder="Placa"
-              defaultValue={estacionamento.nome}
-            />
-            <label className="text-white" htmlFor="precoInicial">
-              Preço Inicial
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="number"
-              placeholder="Preço Inicial"
-              defaultValue={estacionamento.precoInicial}
-            />
-            <label className="text-white" htmlFor="precoHora">
-              Preço por Hora
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="number"
-              placeholder="Preço por Hora"
-              readOnly
-              defaultValue={estacionamento.precoHora}
-            />
-            <label className="text-white" htmlFor="dataCriacao">
-              Data de Cadastro
-            </label>
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
-              type="text"
-              placeholder="Data de Criação"
-              defaultValue={formattedDate(estacionamento.dataCriacao)}
-              readOnly
-            />
+          <form
+            onSubmit={handleSubmit(handleEditEstacionamento)}
+            id="editEstacionamentoForm"
+            className="flex flex-col gap-4"
+          >
+            <FormProvider {...editEstacionamentoForm}>
+              <EditEstacionamentoForm {...estacionamento} />
+            </FormProvider>
           </form>
         </div>
 
@@ -70,7 +104,11 @@ export function EstacionamentoInfoModal({
           <Dialog.Close className="rounded px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600">
             Cancelar
           </Dialog.Close>
-          <button className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600">
+          <button
+            type="submit"
+            form="editEstacionamentoForm"
+            className="rounded bg-green-500 px-4 py-2 text-sm font-medium text-white hover:bg-green-600"
+          >
             Salvar Edição
           </button>
         </div>
