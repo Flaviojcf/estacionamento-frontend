@@ -12,6 +12,10 @@ import { DeleteVeiculoAlertDialog } from '../AlertDialog/DeleteVeiculoAlertDialo
 import { api } from '@/app/api/api'
 import { Toaster, toast } from 'sonner'
 import { ICustomError } from '@/app/interfaces/IError'
+import { ICheckout } from '@/app/interfaces/ICheckout'
+import { AxiosResponse } from 'axios'
+import { differenceDaysInMinutes } from '@/utils/differenceDaysInMinutes'
+import { FormattedMoney } from '@/utils/formattedMoney'
 
 export function VeiculoCard({ ...veiculo }: IVeiculo) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -42,6 +46,52 @@ export function VeiculoCard({ ...veiculo }: IVeiculo) {
           })
         }
       })
+  }
+
+  async function handleVeiculoCheckout(veiculoId: string) {
+    await api
+      .post(`/veiculo/Checkout/${veiculoId}`)
+      .then((response: AxiosResponse<ICheckout>) => {
+        const checkoutData: ICheckout = response.data
+        toast.success('Checkout Realizado com sucesso', {
+          duration: 20000,
+          onAutoClose: () => window.location.reload(),
+          action: {
+            label: 'Fechar',
+            onClick: () => window.location.reload(),
+          },
+          description: formattedDescription(checkoutData),
+        })
+      })
+      .catch((error) => {
+        const customError = error.response?.data as ICustomError
+        if (customError) {
+          toast.error(customError.Errors[0].Message, {
+            duration: 5000,
+            onAutoClose: () => window.location.reload(),
+            action: {
+              label: 'Fechar',
+              onClick: () => window.location.reload(),
+            },
+          })
+        }
+      })
+  }
+
+  function formattedDescription(checkoutData: ICheckout) {
+    return (
+      <div className="flex flex-col gap-2 text-black font-bold mt-4">
+        <p>Débito: {FormattedMoney(checkoutData?.totalDebt)}</p>
+        <p>
+          Tempo total:{' '}
+          {differenceDaysInMinutes(
+            checkoutData?.entranceDate,
+            checkoutData?.exitDate,
+          )}
+          min
+        </p>
+      </div>
+    )
   }
 
   return (
@@ -90,7 +140,7 @@ export function VeiculoCard({ ...veiculo }: IVeiculo) {
           containerStyle="w-full py-[16px] rounded-full bg-green-700 hover:opacity-75"
           textStyles="text-white text-[14px] leading-[17px] font-bold"
           rightIcon={<FaLongArrowAltRight size={25} color="White" />}
-          handleClick={() => setIsOpen(true)}
+          handleClick={() => handleVeiculoCheckout(veiculo.id)}
           btnType={'button'}
         />
       </div>
