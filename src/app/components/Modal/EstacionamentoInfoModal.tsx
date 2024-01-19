@@ -1,6 +1,7 @@
 'use client'
 
 import { IEstacionamento } from '@/app/interfaces/IEstacionamento'
+import { formattedDate } from '@/utils/formattedDate'
 import * as Dialog from '@radix-ui/react-dialog'
 import { MdClose } from 'react-icons/md'
 
@@ -28,46 +29,27 @@ export function EstacionamentoInfoModal({
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="text"
               placeholder="Placa"
-              value={estacionamento.nome}
+              defaultValue={estacionamento.nome}
             />
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="number"
               placeholder="Preço Inicial"
-              value={estacionamento.precoInicial}
+              defaultValue={estacionamento.precoInicial}
             />
             <input
               className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
               type="number"
               placeholder="Preço por Hora"
               readOnly
-              value={estacionamento.precoHora}
+              defaultValue={estacionamento.precoHora}
             />
 
             <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
-              type="date"
-              placeholder="Data de Criação"
-              value={
-                estacionamento.dataCriacao
-                  ? new Date(estacionamento.dataCriacao)
-                      .toISOString()
-                      .split('T')[0]
-                  : ''
-              }
-              readOnly
-            />
-            <input
-              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
+              className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
               type="text"
-              placeholder="Data de Alteração"
-              value={
-                estacionamento.dataAlteracao
-                  ? new Date(estacionamento.dataAlteracao)
-                      .toISOString()
-                      .split('T')[0]
-                  : 'Informações não alteradas'
-              }
+              placeholder="Data de Criação"
+              defaultValue={formattedDate(estacionamento.dataCriacao)}
               readOnly
             />
           </form>
