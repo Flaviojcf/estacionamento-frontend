@@ -13,6 +13,9 @@ export function NewEstacionamentoForm() {
 
   return (
     <div className="flex flex-col gap-4">
+      <label className="text-white" htmlFor="nome">
+        Nome
+      </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
         type="text"
@@ -22,6 +25,9 @@ export function NewEstacionamentoForm() {
       <div className="text-red-400 text-sm">
         <ErrorMessage errors={errors} name="nome" />
       </div>
+      <label className="text-white" htmlFor="precoInicial">
+        Preço Inicial
+      </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
         type="number"
@@ -31,6 +37,9 @@ export function NewEstacionamentoForm() {
       <div className="text-red-400 text-sm">
         <ErrorMessage errors={errors} name="precoInicial" />
       </div>
+      <label className="text-white" htmlFor="precoHora">
+        Preço por Hora
+      </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white"
         type="number"
