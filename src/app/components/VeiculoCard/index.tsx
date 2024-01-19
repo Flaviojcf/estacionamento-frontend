@@ -53,7 +53,7 @@ export function VeiculoCard({ ...veiculo }: IVeiculo) {
       .post(`/veiculo/Checkout/${veiculoId}`)
       .then((response: AxiosResponse<ICheckout>) => {
         const checkoutData: ICheckout = response.data
-        toast.success('Checkout Realizado com sucesso', {
+        toast('Checkout Realizado com sucesso', {
           duration: 20000,
           onAutoClose: () => window.location.reload(),
           action: {

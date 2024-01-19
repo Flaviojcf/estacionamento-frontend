@@ -12,7 +12,9 @@ export function Footer() {
           href="https://www.dio.me/bootcamp/decola-tech-avanade-net-developer"
           target="blank"
         >
-          @DecolaTech 2024
+          <p className="hover:opacity-70 hover:underline transition-colors duration-100 font-bold">
+            @DecolaTech 2024
+          </p>
         </Link>
 
         <Link
@@ -20,7 +22,9 @@ export function Footer() {
           href="https://github.com/Flaviojcf"
           target="blank"
         >
-          @FlavioJcf
+          <p className="hover:opacity-70 hover:underline transition-colors duration-100 font-bold">
+            @FlavioJcf
+          </p>
         </Link>
       </div>
     </footer>

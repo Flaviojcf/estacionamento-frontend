@@ -17,8 +17,8 @@ export function DeleteVeiculoAlertDialog({
     <AlertDialog.Portal>
       <AlertDialog.Overlay className="fixed inset-0 bg-black/50" />
       <AlertDialog.Content className="fixed left-1/2 top-1/2 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-md bg-[#202024] p-8 text-gray-900 shadow sm:w-[320px]">
-        <div className="flex flex-col h-56 justify-between items-center text-center px-4">
-          <AlertDialog.Title className="text-4xl font-bold text-white">
+        <div className="flex flex-col h-56 justify-between items-center text-center px-4 sm:px-0">
+          <AlertDialog.Title className="text-2xl font-bold text-white">
             Atenção!
           </AlertDialog.Title>
           <AlertDialog.Description className="text-white text-xl">
