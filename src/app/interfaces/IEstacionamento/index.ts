@@ -9,3 +9,10 @@ export interface IEstacionamento {
   precoInicial: number
   isAtivo: boolean
 }
+
+export interface IEditEstacionamento {
+  id: UUID
+  nome: string
+  precoHora: number
+  precoInicial: number
+}
