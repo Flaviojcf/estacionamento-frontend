@@ -16,6 +16,7 @@
     "@rocketseat/eslint-config": "^1.2.0",
     "axios": "^1.6.5",
     "clsx": "^2.1.0",
+    "date-fns": "^3.2.0",
     "framer-motion": "^10.17.9",
     "next": "14.0.4",
     "react": "^18",
