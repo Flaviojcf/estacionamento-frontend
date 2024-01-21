@@ -72,26 +72,16 @@ export function EditVeiculoForm({ ...veiculo }: IVeiculo) {
         defaultValue={estacionamentoInfo?.nome}
       ></input>
       <label className="text-white" htmlFor="dataCriacao">
-        Data de Cadastro
-      </label>
-      <input
-        className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
-        type="text"
-        placeholder="Data de Criação"
-        defaultValue={formattedDate(veiculo.dataCriacao)}
-        readOnly
-      />
-      <label className="text-white" htmlFor="dataCriacao">
         Data de Alteração
       </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
         type="text"
-        placeholder="Data de Criação"
+        placeholder="Data de Alteração"
         defaultValue={
           veiculo.dataAlteracao !== null
             ? formattedDate(veiculo.dataAlteracao)
-            : veiculo.dataAlteracao
+            : 'Informações não alteradas'
         }
         readOnly
       />

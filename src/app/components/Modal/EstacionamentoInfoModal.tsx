@@ -82,7 +82,7 @@ export function EstacionamentoInfoModal({
       >
         <div className="flex items-center justify-between">
           <Dialog.Title className="text-xl text-white">
-            Informações do Veículo
+            Informações do Estacionamento
           </Dialog.Title>
           <Dialog.Close className="text-gray-200 hover:text-gray-600">
             <MdClose size={24} />
