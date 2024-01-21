@@ -50,16 +50,20 @@ export function EditEstacionamentoForm({ ...estacionamento }: IEstacionamento) {
       <div className="text-red-400 text-sm">
         <ErrorMessage errors={errors} name="precoHora" />
       </div>
-      {/* <label className="text-white" htmlFor="dataCriacao">
-        Data de Cadastro
+      <label className="text-white" htmlFor="dataCriacao">
+        Data de Alteração
       </label>
       <input
         className="border-0 rounded-md bg-[#121214] text-white p-4 placeholder:text-white read-only:bg-gray-800 read-only:focus:outline-none"
         type="text"
-        placeholder="Data de Criação"
-        defaultValue={formattedDate(estacionamento.dataCriacao)}
+        placeholder="Data de Alteração"
+        defaultValue={
+          estacionamento.dataAlteracao !== null
+            ? formattedDate(estacionamento.dataAlteracao)
+            : 'Informações não alteradas'
+        }
         readOnly
-      /> */}
+      />
     </div>
   )
 }

@@ -1,8 +1,10 @@
-import { format, parseISO } from 'date-fns'
+import { format, parseISO, subHours } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
 export const formattedDate = (date: Date) => {
-  return format(date, 'dd/MM/yyyy HH:mm', {
+  const modifiedDate = subHours(date, 3)
+
+  return format(modifiedDate, 'dd/MM/yyyy HH:mm', {
     locale: ptBR,
   })
 }
